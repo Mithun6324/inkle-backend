@@ -1,58 +1,217 @@
 {
   "info": {
-    "name": "Inkle Backend Collection",
+    "name": "Inkle Social Activity Backend - Full Postman Collection",
+    "_postman_id": "e2f3d88e-4dd4-4899-a662-4b558c6d1993",
+    "description": "Complete Postman collection for the Inkle Backend Assignment (Users, Posts, Admin, Activity Feed).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Signup",
-      "request": {
-        "method": "POST",
-        "header": [{"key": "Content-Type","value":"application/json"}],
-        "body": {
-          "mode": "raw",
-          "raw": "{\"username\":\"alice\",\"email\":\"alice@example.com\",\"password\":\"secret\"}"
+      "name": "Users",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/api/users/signup",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"string\",\n  \"email\": \"user@example.com\",\n  \"password\": \"string\"\n}"
+            }
+          }
         },
-        "url": {"raw":"{{baseUrl}}/api/users/signup","host":["{{baseUrl}}"], "path":["api","users","signup"]}
-      }
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/api/users/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"string\",\n  \"password\": \"string\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get My Profile (/me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+            ],
+            "url": "{{base_url}}/api/users/me"
+          }
+        },
+        {
+          "name": "Follow User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/users/{{username}}/follow"
+          }
+        },
+        {
+          "name": "Unfollow User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/users/{{username}}/unfollow"
+          }
+        },
+        {
+          "name": "Block User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/users/{{username}}/block"
+          }
+        },
+        {
+          "name": "Unblock User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/users/{{username}}/unblock"
+          }
+        }
+      ]
     },
+
     {
-      "name": "Login",
-      "request": {
-        "method": "POST",
-        "header": [{"key":"Content-Type","value":"application/json"}],
-        "body": {"mode":"raw","raw":"{\"username\":\"alice\",\"email\":\"alice@example.com\",\"password\":\"secret\"}"},
-        "url": {"raw":"{{baseUrl}}/api/users/login","host":["{{baseUrl}}"], "path":["api","users","login"]}
-      }
+      "name": "Posts",
+      "item": [
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/posts/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"This is my post\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Feed",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/posts/"
+          }
+        },
+        {
+          "name": "Get Post by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/posts/{{post_id}}"
+          }
+        },
+        {
+          "name": "Like Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/posts/{{post_id}}/like"
+          }
+        },
+        {
+          "name": "Unlike Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/posts/{{post_id}}/unlike"
+          }
+        }
+      ]
     },
+
     {
-      "name": "Create Post",
-      "request": {
-        "method": "POST",
-        "header": [{"key":"Content-Type","value":"application/json"},{"key":"Authorization","value":"Bearer {{token}}"}],
-        "body": {"mode":"raw","raw":"{\"content\":\"Hello world\"}"},
-        "url": {"raw":"{{baseUrl}}/api/posts/","host":["{{baseUrl}}"], "path":["api","posts",""]}
-      }
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Admin Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/admin/posts/{{post_id}}"
+          }
+        },
+        {
+          "name": "Admin Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/admin/users/{{username}}"
+          }
+        },
+        {
+          "name": "Owner Create Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/admin/owners/create-admin/{{username}}"
+          }
+        },
+        {
+          "name": "Owner Remove Admin",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{base_url}}/api/admin/owners/remove-admin/{{username}}"
+          }
+        }
+      ]
     },
+
     {
-      "name": "Get Feed",
-      "request": {
-        "method": "GET",
-        "header":[{"key":"Authorization","value":"Bearer {{token}}"}],
-        "url":{"raw":"{{baseUrl}}/api/posts/","host":["{{baseUrl}}"],"path":["api","posts",""]}
-      }
-    },
-    {
-      "name": "Global Activities",
-      "request": {
-        "method": "GET",
-        "header":[{"key":"Authorization","value":"Bearer {{token}}"}],
-        "url":{"raw":"{{baseUrl}}/api/activities/global","host":["{{baseUrl}}"],"path":["api","activities","global"]}
-      }
+      "name": "Activity Feed",
+      "item": [
+        {
+          "name": "Global Activity Feed",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/activities/global?limit={{limit}}"
+          }
+        }
+      ]
     }
   ],
-  "variable":[
-    {"key":"baseUrl","value":"http://localhost:8000"},
-    {"key":"token","value":""}
+
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "token", "value": "" },
+    { "key": "username", "value": "" },
+    { "key": "post_id", "value": "" },
+    { "key": "limit", "value": "50" }
   ]
 }
+
